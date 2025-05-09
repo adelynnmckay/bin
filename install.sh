@@ -1,17 +1,21 @@
 #!/bin/bash
 
-set -ouex pipefail
+set -oue pipefail
 
-if [ ! -f "$HOME/.local/share/ade/bin" ]; then
-    mkdir -p "$HOME/.local/share/ade/"
+if [ ! -d "$HOME/.local/share/ade/bin" ]; then
+    mkdir -p "$HOME/.local/share/ade/bin"
     git clone https://github.com/adelynnmckay/bin.git "$HOME/.local/share/ade/bin"
 fi
 
 if [ "${PWD}" != "$HOME/.local/share/ade/bin" ]; then
+    echo "Updating scripts in ~/.local/share/ade/bin..."
     cd "$HOME/.local/share/ade/bin"
+    git pull
 fi
 
 cd ./src
+
+mkdir -p "$HOME/.bin"
 
 for file in *; do
   if [[ "$file" == *.py || "$file" == *.sh ]]; then
@@ -40,5 +44,8 @@ for file in *; do
     ln -sf -- "$target_path" "$binfile"
   fi
 done
+
+chmod +x "$HOME/.local/share/ade/bin/"*
+chmod +x "$HOME/.bin/"*
 
 echo "Done!"
