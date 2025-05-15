@@ -41,7 +41,7 @@ for file in *; do
     binfile="$HOME/.bin/$name"
     target_path="$(realpath -- "$file")"
     echo "Linking $target_path -> $binfile"
-    ln -sf -- "$target_path" "$binfile"
+    ln -sf -- "$target_path" "$binfile" || echo >/dev/null
   fi
 done
 
