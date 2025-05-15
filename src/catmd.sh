@@ -77,7 +77,11 @@ is_ignored() {
         return 0
       fi
     fi
-    DIR=$(dirname "$DIR")
+    NEW_DIR=$(dirname "$DIR")
+    if [ "$NEW_DIR" = "$DIR" ]; then
+      break
+    fi
+    DIR="$NEW_DIR"
   done
 
   return 1
