@@ -22,13 +22,15 @@ print_help() {
 is_ignored() {
   FILE="$1"
   DIR=$(dirname "$FILE")
+  PREV_DIR=""
 
-  while [ "$DIR" != "/" ] && [ -n "$DIR" ]; do
+  while [ "$DIR" != "/" ] && [ -n "$DIR" ] && [ "$DIR" != "$PREV_DIR" ]; do
     if [ -f "$DIR/.gitignore" ]; then
       if git check-ignore --no-index -q --exclude-from="$DIR/.gitignore" "$FILE" 2>/dev/null; then
         return 0
       fi
     fi
+    PREV_DIR="$DIR"
     DIR=$(dirname "$DIR")
   done
 
