@@ -2,4 +2,4 @@
 
 set -oue pipefail
 
-ollama run --model "llama2" --prompt "$@"
+ollama run "llama3.2" "$@"
