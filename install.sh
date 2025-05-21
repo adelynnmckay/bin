@@ -10,6 +10,7 @@ fi
 if [ "${PWD}" != "$HOME/.local/share/ade/bin" ]; then
     echo "Updating scripts in ~/.local/share/ade/bin..."
     cd "$HOME/.local/share/ade/bin"
+    git reset --hard HEAD
     git pull
 fi
 
