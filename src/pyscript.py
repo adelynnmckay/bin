@@ -5,17 +5,18 @@ import sys
 import hashlib
 import venv
 import subprocess
+import shlex
 from pathlib import Path
 
 def parse_reqs(script_path: Path) -> list[str]:
     with open(script_path, encoding="utf-8") as f:
         for line in f:
             if line.strip().startswith("# requirements:"):
-                return line.partition(":")[2].strip().split()
+                return shlex.split(line.partition(":")[2].strip())
     return []
 
 def get_venv_path(script_path: Path, deps: list[str]) -> Path:
-    h = hashlib.sha256((" ".join(deps)).encode()).hexdigest()[:12]
+    h = hashlib.sha256(" ".join(deps).encode()).hexdigest()[:12]
     return Path.home() / ".cache" / f"pyscript-{script_path.stem}-{h}"
 
 def create_venv(venv_path: Path):
@@ -33,7 +34,7 @@ def exec_in_venv(python_path: Path, script: Path, args: list[str]):
 
 def main():
     if os.environ.get("PYSCRIPT_ACTIVE") == "1":
-        return  # Already inside venv
+        return
 
     if len(sys.argv) < 2:
         print("Usage: pyscript <your-script.py> [args...]")
