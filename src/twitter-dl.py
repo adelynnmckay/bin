@@ -1,26 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env pyscript
+# requirements: snscrape requests
 
 import os
 import sys
-import subprocess
-
-REQUIRED_PACKAGES = ["snscrape", "requests"]
-
-def ensure_dependencies():
-    for pkg in REQUIRED_PACKAGES:
-        try:
-            __import__(pkg)
-        except ImportError:
-            print(f"📦 Installing missing package: {pkg}")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+import re
+from urllib.parse import urlparse
+from datetime import datetime
+import snscrape.modules.twitter as sntwitter
+import requests
+import argparse
 
 def run_thread_command(args):
-    import re
-    from urllib.parse import urlparse
-    from datetime import datetime
-    import snscrape.modules.twitter as sntwitter
-    import requests
-
     if args.format != "markdown":
         print("❌ Only 'markdown' format is supported.")
         sys.exit(1)
@@ -90,13 +80,9 @@ def run_thread_command(args):
     print(f"📄 Markdown saved to: {args.file_path}")
 
 def main():
-    ensure_dependencies()
-
-    import argparse
     parser = argparse.ArgumentParser(prog="twitter-dl.py", description="Download Twitter content")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # thread subcommand
     thread_parser = subparsers.add_parser("thread", help="Download a Twitter thread upward from a tweet")
     thread_parser.add_argument("url", help="URL of the tweet to start from")
     thread_parser.add_argument("--format", choices=["markdown"], default="markdown", help="Output format")
