@@ -1,5 +1,5 @@
 #!/usr/bin/env pyscript
-# requirements: snscrape requests
+# requirements: snscrape @ git+https://github.com/JustAnotherArchivist/snscrape.git@master requests
 
 import os
 import sys
