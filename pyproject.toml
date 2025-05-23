@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "bin"
+version = "0.1.0"
+description = ""
+authors = ["Adelynn McKay"]
+readme = "README.md"
+license = "MIT"
+packages = [{ include = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
